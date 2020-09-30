@@ -1,0 +1,1 @@
+return { [1] = "Player", [2] = "Helper", [3] = "Moderator", [4] = "Administrator", [5] = "Developer", [6] = "Owner" } -- CHANGE BY YOUR LIKE
