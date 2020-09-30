@@ -57,7 +57,6 @@ Every configuration is in `/vrp/cfg`.
 Firstly, we need to set up the first spawn-zone and the death spawn-zone ( `/vrp/cfg/player_state.lua` ):
 ```lua
 config.spawn_position = {-330.58148193359,6149.779296875,32.30689239502} -- CHANGE THIS COORD FOR FIRST SPAWN
-config.spawn_death = {-240.37907409668,6323.8247070313,32.426189422607} -- CHANGE THIS COORD FOR DEATH SPAWN
 ```
 
 Secondly, we need to config the roles ( `/vrp/cfg/roles.lua` ):
