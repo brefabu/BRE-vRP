@@ -1,6 +1,6 @@
 # Modified vRP by BRE Faby
 
-`Firstly, this project it's made long time ago, but I decided to post it now.`
+`Firstly, this project it's made long time ago, but I decided to post it now. And yes, it's optimized!`
 
 - [x] MySQL-ASync
 ```
@@ -35,6 +35,10 @@ Vehicle parking it's a native function now!
 Added Visa and Driver Licenses per type of players.
 
 Added factions with an on duty system, that adds the uniform!
+```
+- [x] vRP Scripts
+```
+A new showroom and a new gunshop are waiting for you!
 ```
 
 - [x] Documentation for setting up the server
