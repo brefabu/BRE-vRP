@@ -40,21 +40,21 @@ AddEventHandler("vRP:prelucruPrafuri",function()
     local user_id = vRP.getUserId({source})
     local player = vRP.getUserSource({user_id})
 
-    vRP.buildMenu({"prafuri", {player = player}, function(menu)
+    vRP.buildMenu({"prafuri", {user_id = user_id, player = player}, function(menu)
         menu.name = "Prafuri"
         menu.css={top="75px",header_color="rgba(0,200,0,0.75)"}
         menu.onclose = function(player) vRP.closeMenu({player}) end
 
         menu["LSD"] = {function(player,choice)
-            Prelucreaza(user_id,"lsd",2.5*60*1000,{"harness",3})
+            Prelucreaza(player,"lsd",2.5*60*1000,{"harness",3})
         end,"Ingrediente: 3 harness<br><br> Dureaza 2 minute si 30 de secunde."}
 
         menu["Cocaina"] = {function(player,choice)
-            Prelucreaza(player,"cocaina",2.5*60*1000,{"benzoilmetilecgonina",4})
+            Prelucreaza(player,"cocaine",2.5*60*1000,{"benzoilmetilecgonina",4})
         end,"Ingrediente: 4 benzo<br><br> Dureaza 2 minute si 30 de secunde."}
 
         menu["Heroina"] = {function(player,choice)
-            Prelucreaza(user_id,"heroina",2.5*60*1000,{"opiu",5})
+            Prelucreaza(player,"heroine",2.5*60*1000,{"opiu",5})
         end,"Ingrediente: 5 opiu<br><br> Dureaza 2 minute si 30 de secunde."}
         
         vRP.openMenu({player,menu})
@@ -66,13 +66,13 @@ AddEventHandler("vRP:prelucruIerburi",function()
     local user_id = vRP.getUserId({source})
     local player = vRP.getUserSource({user_id})
 
-    vRP.buildMenu({"ierburi", {player = player}, function(menu)
+    vRP.buildMenu({"ierburi", {user_id = user_id, player = player}, function(menu)
         menu.name = "Ierburi"
         menu.css={top="75px",header_color="rgba(0,200,0,0.75)"}
         menu.onclose = function(player) vRP.closeMenu({player}) end
 
         menu["Canabis"] = {function(player,choice)
-            Prelucreaza(user_id,"canabis",2.5*60*1000,{"seeds",3})
+            Prelucreaza(player,"canabis",2.5*60*1000,{"seeds",3})
         end,"Ingrediente: 3 seminte<br><br> Dureaza 2 minute si 30 de secunde."}
         
         vRP.openMenu({player,menu})
