@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Bhai|Rubik&display=swap');
+* {margin: 0;padding: 0;font-family: 'Baloo Bhai', cursive;}
+
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30,30,30,0.5);
+}
+
+.warp {
+  position: relative;
+  left: 50%;
+  width: 25%;
+  margin-top: 5vh;
+  transform: translate(-50%,0);
+  height: auto;
+  text-align: center;
+  color: black;
+  padding: 1vw;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: rgba(255,255,255,0.5);
+  border-radius: 10vh;
+  user-select: none;
+  transition-duration: 0.5s;
+}
+.warp:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.32), 0 6px 20px 0 rgba(0, 0, 0, 0.319);
+  background-color: rgba(255,255,255,0.75);
+}
+.button {
+  position: relative;
+  left: 50%;
+  width: 25%;
+  margin-top: 5vh;
+  transform: translate(-50%,0);
+  height: auto;
+  text-align: center;
+  color: white;
+  padding: 1vw;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: rgba(150,150,150,0.5);
+  border-radius: 10vh;
+  user-select: none;
+  transition-duration: 0.5s;
+}
+.button:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.32), 0 6px 20px 0 rgba(0, 0, 0, 0.319);
+  background-color: rgba(0,255,0,0.75);
+}
+.select {
+  transition-duration: 0.5s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.32), 0 6px 20px 0 rgba(0, 0, 0, 0.319);
+  background-color: rgba(255,255,255,1);
+}
+.quest {
+  text-align: center;
+  color: white;
+  user-select: none;
+  padding: 2vw;
+  font-size: larger;
+}
+.info {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%,0);
+  text-align: center;
+  color: white;
+  user-select: none;
+  padding: 2vw;
+  font-size: larger;
+}
+.alert{
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  padding: 1vw;
+  transform: translate(-50%,0);
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  text-align: center;
+  line-height: 1.75vw;
+  user-select: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@keyframes alert {
+  0%{opacity: 0;bottom: 0;}
+  50%{opacity: 1.0;bottom: 5%;}
+  100%{opacity: 0;bottom: 0%;}
+}

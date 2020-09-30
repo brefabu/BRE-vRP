@@ -1,0 +1,89 @@
+@font-face {
+  font-family: 'Font2';
+  src: url('font2.ttf'); /*Locatie font*/
+}
+
+* {
+  font-family: 'Font2';
+  position: relative;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+.hud {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: auto;
+  height: auto;
+  border-radius: 25px;
+}
+
+.progress {
+  float: left;
+  width: 185px;
+  height: 15px;
+  margin: 5px;
+  margin-top: 7.5px;
+  margin-bottom: 0;
+  border-radius: 5px;
+  background-color: rgba(30,30,30,0.7);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.progress-hunger {
+  width: 125px;
+  height: 15px;
+  border-radius: 5px;
+  background-color: orange;
+}
+
+.progress-thirst {
+  width: 75px;
+  height: 15px;
+  border-radius: 5px;
+  background-color: lightblue;
+}
+
+.money {
+  float: right;
+  width: auto;
+  margin: 5px;
+  height: 15px;
+  padding: 5px;
+  margin-top: 7.5px;
+  margin-bottom: 0;
+  color: white;
+  border-radius: 5px;
+}
+
+.money .value {
+  float: right;
+  letter-spacing: 0.0.75em;
+  margin: -1.5px 5px 0 5px;
+}
+
+.money .coin {
+  float: right;
+  margin: -5px -5.5px 0 5px;
+  height: 15px;
+  padding: 5px;
+}
+
+.server-info {
+  float: left;
+  text-align: center;
+  width: 300px;
+  min-height: 15px;
+  padding: 5px;
+  margin: 17.5px 10px;
+  letter-spacing: 0.25em;
+  background-color: rgb(80,20,20);
+  color: white;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
