@@ -30,7 +30,7 @@ Citizen.CreateThread(function()
   SetNuiFocus( false, false )
   while true do
     if Vdist(GetEntityCoords(GetPlayerPed(-1)),124.90341949463,6411.9487304688,31.322937011719) < 2.5 or Vdist(GetEntityCoords(GetPlayerPed(-1)),1728.0665283203,3709.7019042969,34.230560302734) < 2.5 or Vdist(GetEntityCoords(GetPlayerPed(-1)),-29.858381271362,-1104.5050048828,26.422342300415) < 2.5 then
-      DisplayHelpText("~g~Apasa ~INPUT_PICKUP~ pentru a vedea masinile.")
+      DisplayHelpText("~g~Press ~INPUT_PICKUP~ for seeing the menu.")
       if not opened and IsControlJustPressed(1, 38) then
         TriggerServerEvent("showroom:get_vehicles")
         opened = true
@@ -145,7 +145,7 @@ RegisterNetEvent('showroom:view')
 AddEventHandler('showroom:view',function(model)
   Citizen.CreateThread(function()
     local history = GetEntityCoords(GetPlayerPed(-1))
-    vRP.notify({"Asteapta ca vehiculul sa se incarce pentru a-l vizualiza!"})
+    vRP.notify({"Wait!"})
       RequestModel( GetHashKey(model) )
       local i = 0
       local loaded = true
@@ -154,7 +154,7 @@ AddEventHandler('showroom:view',function(model)
           i = i+1
           if i == 5000 then
               loaded = false
-              vRP.notify({"Vehiculul nu s-a incarcat..."})
+              vRP.notify({"Not loaded..."})
               break
           end
       end
@@ -176,7 +176,7 @@ AddEventHandler('showroom:view',function(model)
         SetEntityVisible(GetPlayerPed(-1), false, false)
         while true do
             Wait(0)
-            drawTxt(1.0, 1.0, 0.4, "~w~Apasa ~r~[E] ~w~inchide vizualizarea.", 255, 255, 255, 255)
+            drawTxt(1.0, 1.0, 0.4, "~w~Press ~r~[E] ~w~to close.", 255, 255, 255, 255)
             if IsControlJustPressed(0,51) then
               local playerPed = GetPlayerPed(-1)
               local coords = GetEntityCoords(GetPlayerPed(-1))
