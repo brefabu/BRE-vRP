@@ -56,7 +56,7 @@ function vRP.tryFullPayment(id,amount)
   return false
 end
 
-AddEventHandler("vRP:playerSpawn", user_id, player, first_spawn)
+AddEventHandler("vRP:playerSpawn", function(user_id, player, first_spawn)
     if first_spawn then
         TriggerClientEvent("vRP:updateMoney", player, vRP.getMoney(user_id))
     end
