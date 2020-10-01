@@ -192,7 +192,7 @@ AddEventHandler("vRP:playerSpawn", function(user_id, player, first_spawn)
                     hunger = 100,
                     faction = " ",
                     faction_rank = " ",
-                    role = "Fondator",
+                    role = "Player",
                     money = 2000,
                     bmoney = 700,
                     position = {
