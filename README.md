@@ -66,7 +66,8 @@ return { [1] = "Player", [2] = "Helper", [3] = "Moderator", [4] = "Administrator
 ```
 
 Config the factions ( `/vrp/cfg/factions.lua` ):
-```luafactions = {
+```lua
+factions = {
   ["Police"] = {
     _coords = {
       {445.55010986328,-984.70275878906,30.689599990845},
