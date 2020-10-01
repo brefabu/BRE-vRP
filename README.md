@@ -131,3 +131,5 @@ Config the vehicles ( `/vrp/cfg/vehicles.lua` ):
 The rest of configuration is similar enough to Old vRP.
 
 ### NOTE: Some of the scripts are written in Romanian.
+
+For any help: [Discord Server](https://discord.gg/BNJ9wX6)
