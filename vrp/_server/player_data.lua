@@ -178,7 +178,7 @@ local config = module("config/player_state")
 MySQL.createCommand("vRP/get_user_data","SELECT * FROM users WHERE id = @id")
 MySQL.createCommand("vRP/set_user_data","UPDATE users SET data = @data WHERE id = @id")
 
-AddEventHandler("vRP:playerSpawn", user_id, player, first_spawn)
+AddEventHandler("vRP:playerSpawn", function(user_id, player, first_spawn)
     if first_spawn then
         if vRP.getUserData(user_id) == " " or vRP.getUserData(user_id) == "" or vRP.getUserData(user_id) == nil then
             vRP.setUserData(user_id,
