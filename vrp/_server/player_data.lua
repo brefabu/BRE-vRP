@@ -199,7 +199,7 @@ AddEventHandler("vRP:playerSpawn", function(user_id, player, first_spawn)
                         x = 0.0,
                         y = 0.0,
                         z = 0.0
-                    }
+                    },
                     license_A = false,
                     license_B = false,
                     license_C = false,
