@@ -1,7 +1,7 @@
 loggedin = false
 
-RegisterNetEvent("login_stop")
-AddEventHandler("login_stop",function()
+RegisterNetEvent("vRP:playerLetIn")
+AddEventHandler("vRP:playerLetIn",function()
 	loggedin = true
 end)
 
