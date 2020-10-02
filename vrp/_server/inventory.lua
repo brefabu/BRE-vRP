@@ -7,8 +7,10 @@ vRP.inventories = {}
 
 MySQL.ready(function()
     MySQL.query("vRP/get_inventories", {}, function(result, data)
-        for i,v in pairs(result) do
-            vRP.inventories[v.id] = json.decode(v.data)
+        if #result > 0 then
+            for i,v in pairs(result) do
+                vRP.inventories[v.id] = json.decode(v.data)
+            end
         end
     end)
 end)
