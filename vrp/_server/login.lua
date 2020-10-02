@@ -153,11 +153,11 @@ Citizen.CreateThread(function()
                     Wait(256)
                     if not (config.whitelist and rows[1].whitelisted) or (not config.whitelist) then
                       Wait(256)
-                      TriggerClientEvent("vRP:",user.source)
+                      TriggerClientEvent("vRP:playerLetIn",user.source)
                       Wait(256)
                       vRP.users[user.source] = {id = tonumber(rows[1].id),username = rows[1].username,data = json.decode(rows[1].data)}
                       Wait(256)
-                      TriggerEvent("vRPcli:playerLetIn", user.source, tonumber(rows[1].id))
+                      TriggerEvent("vRP:playerSpawn",tonumber(rows[1].id),user.source,true)
                       Wait(256)
                       Wait(256)
                       vRPclient.notify(user.source,{"Welcome on "..config.server_name.."!"})
