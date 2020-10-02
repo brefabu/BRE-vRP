@@ -9,6 +9,7 @@ server_scripts{
   "@mysql-async/lib/MySQL.lua",
   "lib/utils.lua",
   "base.lua",
+  "_server/login.lua",
   "_server/player_data.lua",
   "_server/gui.lua",
   "_server/roles.lua",
