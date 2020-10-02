@@ -2,6 +2,8 @@ MySQL.createCommand("vRP/create_user","INSERT INTO users(username,password,regis
 MySQL.createCommand("vRP/login","SELECT * FROM users WHERE username = @username")
 MySQL.createCommand("vRP/get_username","SELECT username FROM users WHERE username = @username")
 
+local config = module("config/base")
+
 --Setting the login request qeue
 RegisterServerEvent("vRP:checkLogin")
 AddEventHandler("vRP:checkLogin",function(username,password)
