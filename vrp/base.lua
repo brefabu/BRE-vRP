@@ -22,7 +22,7 @@ vRP.users = {}
 
 -- DB GENERATOR
 MySQL.createCommand("base_tables",[[
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL,
   `username` varchar(24) DEFAULT NULL,
   `password` longtext DEFAULT NULL,
@@ -33,17 +33,17 @@ CREATE TABLE `users` (
   `last_login_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `homes` (
+CREATE TABLE IF NOT EXISTS `homes` (
   `id` int(11) NOT NULL,
   `data` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `inventories` (
+CREATE TABLE IF NOT EXISTS `inventories` (
   `id` varchar(24) NOT NULL,
   `data` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `vehicles` (
+CREATE TABLE IF NOT EXISTS `vehicles` (
   `vehicle_plate` varchar(255) NOT NULL,
   `vehicle` varchar(255) NOT NULL,
   `owner` int(11) DEFAULT NULL,
