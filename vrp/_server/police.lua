@@ -239,20 +239,20 @@ vRP.registerMenuBuilder("main", function(add, data)
       end}
     end
 
-    if vRP.isInMafia(user_id,"Mafia") then
-      choices["Mafia menu"] = {function(player,choice)
-        vRP.buildMenu("mafia", {player = player}, function(menu)
-          menu.name = "Mafia menu"
-          menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
+    --if vRP.isInMafia(user_id,"Mafia") then
+    --  choices["Mafia menu"] = {function(player,choice)
+    --    vRP.buildMenu("mafia", {player = player}, function(menu)
+    --      menu.name = "Mafia menu"
+    --      menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
 
-          menu["Cuff"] = choice_handcuff
-          menu["Put in vehicle"] = choice_putinveh
-          menu["Kick from vehicle"] = choice_getoutveh
+    --      menu["Cuff"] = choice_handcuff
+    --      menu["Put in vehicle"] = choice_putinveh
+    --      menu["Kick from vehicle"] = choice_getoutveh
 
-          vRP.openMenu(player,menu)
-        end)
-      end}
-    end
+    --      vRP.openMenu(player,menu)
+    --    end)
+    --  end}
+    --end
     
     add(choices)
   end
