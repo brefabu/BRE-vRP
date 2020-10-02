@@ -23,7 +23,7 @@ vRP.users = {}
 -- DB GENERATOR
 MySQL.createCommand("base_tables",[[
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(24) DEFAULT NULL,
   `password` longtext DEFAULT NULL,
   `data` longtext DEFAULT NULL,
@@ -34,40 +34,21 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `homes` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `data` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `inventories` (
-  `id` varchar(24) NOT NULL,
+  `id` varchar(24) NOT NULL PRIMARY KEY,
   `data` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `vehicles` (
-  `vehicle_plate` varchar(255) NOT NULL,
+  `vehicle_plate` varchar(255) NOT NULL PRIMARY KEY,
   `vehicle` varchar(255) NOT NULL,
   `owner` int(11) DEFAULT NULL,
   `data` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-ALTER TABLE `homes`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `inventories`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
-
-ALTER TABLE `vehicles`
-  ADD PRIMARY KEY (`vehicle_plate`);
-
-ALTER TABLE `homes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ]])
 
 MySQL.execute("base_tables")
