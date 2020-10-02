@@ -180,7 +180,7 @@ MySQL.createCommand("vRP/set_user_data","UPDATE users SET data = @data WHERE id 
 
 AddEventHandler("vRP:playerSpawn", function(user_id, player, first_spawn)
     if first_spawn then
-        vRPclient.teleport(player, {config.spawn_position})
+        vRPclient.teleport(player, config.spawn_position)
 
         local position = vRP.users[player].data.position
         vRPclient.teleport(player, {position.x, position.y, position.z})
