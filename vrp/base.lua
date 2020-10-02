@@ -3,7 +3,7 @@ MySQL = module("vrp_mysql", "MySQL")
 local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Lang = module("lib/Lang")
-local sha2 = module("lib/sha2")
+sha2 = module("lib/sha2")
 Debug = module("lib/Debug")
 
 local config = module("config/base")
