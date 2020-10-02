@@ -161,7 +161,7 @@ local function build_client_lidermenu(source)
         for i,v in pairs(factions) do
             for j,k in pairs(v._coords) do
                 local x,y,z = table.unpack(k)
-                if vRP.hasUserRole(user_id,"Fondator") or vRP.isLeader(user_id,i) then
+                if vRP.hasUserRole(user_id,"Owner") or vRP.isLeader(user_id,i) then
                     local lidermenu_enter = function(player,area)
                         if user_id ~= nil then
                             vRP.buildMenu("faction", {user_id = user_id, player = player}, function(faction)
