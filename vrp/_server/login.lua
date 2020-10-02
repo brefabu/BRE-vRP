@@ -44,7 +44,69 @@ AddEventHandler("vRP:checkRegister",function(username,password)
           if #registered == 0 then
             Wait(256)
             vRPclient.notify(player,{"You registered with success!"})
-            MySQL.execute("vRP/create_user",{username = username, password = sha2.sha256(password)})
+            MySQL.execute("vRP/create_user",{username = username, password = sha2.sha256(password), data = json.encode({
+                    firstname = "Firstname",
+                    name = "Name",
+                    phone = vRP.generateStringNumber("+407DDDDDDDD"),
+                    age = "18",
+                    health = 100,
+                    thirst = 100,
+                    hunger = 100,
+                    faction = " ",
+                    faction_rank = " ",
+                    role = "Player",
+                    money = 2000,
+                    bmoney = 700,
+                    position = {
+                        x = 0.0,
+                        y = 0.0,
+                        z = 0.0
+                    },
+                    license_A = false,
+                    license_B = false,
+                    license_C = false,
+                    visa = false,
+                    weapons = {},
+                    customization = {
+                        prop_glasses_text = 0,
+                        beard = 0,
+                        torso = 0,
+                        prop_glasses = 0,
+                        prop_earrings = 0,
+                        wrinkleopacity = 0,
+                        leg = 0,
+                        eyebrowopacity = 0,
+                        dadmumpercent = 5,
+                        undershirttext = 0,
+                        torsotext = 0,
+                        legtext = 0,
+                        shoestext = 0,
+                        eyebrow = 0,
+                        freckle = 0,
+                        skinproblem = 0,
+                        prop_hat_text = 0,
+                        shoes = 0,
+                        beardcolor = 0,
+                        prop_hat = 0,
+                        prop_watches_text = 0,
+                        beardopacity = 0,
+                        torso2text = 0
+                        ,acne = 0,
+                        mum = 0,
+                        wrinkle = 0,
+                        accessory = 0,
+                        hair = 0,
+                        eyecolor = 0,
+                        accessorytext = 0,
+                        prop_earrings_text = 0,
+                        dad = 0,
+                        skin = 0,
+                        prop_watches = 0,
+                        undershirt = 0,
+                        torso2 = 0,
+                        haircolor = 0
+                    }
+                })})
           else
             vRPclient.notify(player,{"You're already registered!"})
           end
