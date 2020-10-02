@@ -158,7 +158,7 @@ Citizen.CreateThread(function()
                       vRP.users[user.source] = {id = tonumber(rows[1].id),username = rows[1].username,data = json.decode(rows[1].data)}
                       Wait(256)
                       TriggerEvent("vRP:playerSpawn",tonumber(rows[1].id),user.source,true)
-                      Wait(256)
+                      TriggerEvent("vRP:playerLoggedIn",user.source, tonumber(rows[1].id), rows[1].data)
                       Wait(256)
                       vRPclient.notify(user.source,{"Welcome on "..config.server_name.."!"})
                       Wait(256)
