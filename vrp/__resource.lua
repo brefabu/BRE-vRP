@@ -33,6 +33,7 @@ server_scripts{
   "_server/identity.lua",
   "_server/insurance.lua",
   "_server/payday.lua",
+  "_server/admin.lua",
   "_server/licenses.lua"
 }
 
