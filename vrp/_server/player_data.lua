@@ -175,8 +175,8 @@ end
 
 local config = module("config/player_state")
 
-MySQL.createCommand("vRP/get_user_data","SELECT * FROM users WHERE id = @id")
-MySQL.createCommand("vRP/set_user_data","UPDATE users SET data = @data WHERE id = @id")
+vRP.MySQL.createCommand("vRP/get_user_data","SELECT * FROM users WHERE id = @id")
+vRP.MySQL.createCommand("vRP/set_user_data","UPDATE users SET data = @data WHERE id = @id")
 
 AddEventHandler("vRP:playerSpawn", function(user_id, player, first_spawn)
     if first_spawn then
@@ -195,7 +195,7 @@ AddEventHandler("vRP:save", function()
     for i,v in pairs(vRP.users) do
         vRPclient.getPosition(i, {}, function(x,y,z)
             vRP.setUserPosition(v.id,x,y,z)
-            MySQL.execute("vRP/set_user_data",{data = json.encode(v.data),id = v.id})
+            vRP.MySQL.execute("vRP/set_user_data",{data = json.encode(v.data),id = v.id})
         end)
 
         if DoesEntityExist(GetPlayerPed(vRP.getUserSource(v.id))) then

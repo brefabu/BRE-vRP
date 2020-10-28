@@ -1,24 +1,22 @@
-MySQL.createCommand("vRP/add_inventory","INSERT INTO inventories(id, data) VALUES(@id,@data)")
-MySQL.createCommand("vRP/get_inventory_data","SELECT * FROM inventories WHERE id = @id")
-MySQL.createCommand("vRP/set_inventory_data","UPDATE inventories SET data = @data WHERE id = @id")
-MySQL.createCommand("vRP/get_inventories","SELECT * FROM inventories")
+vRP.MySQL.createCommand("vRP/add_inventory","INSERT INTO inventories(id, data) VALUES(@id,@data)")
+vRP.MySQL.createCommand("vRP/get_inventory_data","SELECT * FROM inventories WHERE id = @id")
+vRP.MySQL.createCommand("vRP/set_inventory_data","UPDATE inventories SET data = @data WHERE id = @id")
+vRP.MySQL.createCommand("vRP/get_inventories","SELECT * FROM inventories")
 
 vRP.inventories = {}
 
-MySQL.ready(function()
-    MySQL.query("vRP/get_inventories", {}, function(result, data)
-        if #result > 0 then
-            for i,v in pairs(result) do
-                vRP.inventories[v.id] = json.decode(v.data)
-            end
+vRP.MySQL.query("vRP/get_inventories", {}, function(result, data)
+    if #result > 0 then
+        for i,v in pairs(result) do
+            vRP.inventories[v.id] = json.decode(v.data)
         end
-    end)
+    end
 end)
 
 function vRP.addInventory(id,weight)
     vRP.inventories[id] = { items = {}, weight = weight}
 
-    MySQL.execute("vRP/add_inventory", {id = id,data = json.encode(vRP.inventories[id])})
+    vRP.MySQL.execute("vRP/add_inventory", {id = id,data = json.encode(vRP.inventories[id])})
 end
 
 function vRP.getInventory(identificator)
@@ -100,7 +98,7 @@ end
 --SQL REGISTER SAVE ~ Every 1min
 AddEventHandler("vRP:save", function()
     for i,v in pairs(vRP.inventories) do
-        MySQL.execute("vRP/set_inventory_data",{data = json.encode(v),id = i})
+        vRP.MySQL.execute("vRP/set_inventory_data",{data = json.encode(v),id = i})
     end
 end)
 

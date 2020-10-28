@@ -1,9 +1,9 @@
-MySQL.createCommand("vRP/add_vehicle","INSERT IGNORE INTO vehicles(owner,vehicle,vehicle_plate,data) VALUES(@owner,@vehicle,@vehicle_plate,@data)")
-MySQL.createCommand("vRP/remove_vehicle","DELETE FROM vehicles WHERE vehicle_plate = @vehicle_plate")
-MySQL.createCommand("vRP/get_vehicles","SELECT * FROM vehicles WHERE owner = @user_id")
-MySQL.createCommand("vRP/get_all_vehicles","SELECT * FROM vehicles")
-MySQL.createCommand("vRP/get_vehicle","SELECT * FROM vehicles WHERE vehicle_plate = @vehicle_plate")
-MySQL.createCommand("vRP/update_vehicle","UPDATE vehicles SET data = @data WHERE vehicle_plate = @vehicle_plate")
+vRP.MySQL.createCommand("vRP/add_vehicle","INSERT IGNORE INTO vehicles(owner,vehicle,vehicle_plate,data) VALUES(@owner,@vehicle,@vehicle_plate,@data)")
+vRP.MySQL.createCommand("vRP/remove_vehicle","DELETE FROM vehicles WHERE vehicle_plate = @vehicle_plate")
+vRP.MySQL.createCommand("vRP/get_vehicles","SELECT * FROM vehicles WHERE owner = @user_id")
+vRP.MySQL.createCommand("vRP/get_all_vehicles","SELECT * FROM vehicles")
+vRP.MySQL.createCommand("vRP/get_vehicle","SELECT * FROM vehicles WHERE vehicle_plate = @vehicle_plate")
+vRP.MySQL.createCommand("vRP/update_vehicle","UPDATE vehicles SET data = @data WHERE vehicle_plate = @vehicle_plate")
 
 local vehicles = module("config/vehicles")
 
@@ -47,7 +47,7 @@ end
 
 function vRP.buyVehicle(vehicle, vehicle_plate, owner_id)
   vRP.vehicles[vehicle_plate] = {data = {position = {x = 0, y = 0, z = 0, h = 0}, ups = " ", insurance = false, odometer = 0, consumption = 0}, owner = owner_id}
-  MySQL.execute("vRP/add_vehicle",{vehicle = vehicle, vehicle_plate = vehicle_plate, owner = owner_id,data = json.encode(vRP.vehicles[vehicle_plate].data)})
+  vRP.MySQL.execute("vRP/add_vehicle",{vehicle = vehicle, vehicle_plate = vehicle_plate, owner = owner_id,data = json.encode(vRP.vehicles[vehicle_plate].data)})
 end
 
 function vRP.registerVehicle(plate,vehicle)
@@ -63,7 +63,7 @@ AddEventHandler("vRP:playerLoggedIn", function(player, user_id, data)
       end
     end
 
-    MySQL.query("vRP/get_vehicles",{user_id = user_id},function(result,affected)
+    vRP.MySQL.query("vRP/get_vehicles",{user_id = user_id},function(result,affected)
       for i,v in pairs(result) do
         local data = json.decode(v.data)
 
@@ -100,7 +100,7 @@ AddEventHandler("vRP:save",function()
           v.data.position.y = y
           v.data.position.z = z
           v.data.position.h = h
-          MySQL.execute("vRP/update_vehicle",{vehicle_plate = i,data = json.encode(v.data)})
+          vRP.MySQL.execute("vRP/update_vehicle",{vehicle_plate = i,data = json.encode(v.data)})
         end
       end)
     end

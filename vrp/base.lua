@@ -1,27 +1,33 @@
-MySQL = module("vrp_mysql", "MySQL")
-
+--Main Library
 local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Lang = module("lib/Lang")
-sha2 = module("lib/sha2")
-Debug = module("lib/Debug")
+sha2 = module("lib/sha2") -- encryption library
 
+--Main Configuration
 local config = module("config/base")
 
+--Main Proxy
 vRP = {}
 Proxy.addInterface("vRP",vRP)
 
-tvRP = {}
-Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
+--MySQL Functions
+vRP.MySQL = {}
+vRP.MySQL = module("lib/MySQL")
 
--- init
-vRPclient = Tunnel.getInterface("vRP","vRP") -- server -> client tunnel
+--Main Tunnel
+tvRP = {}
+Tunnel.bindInterface("vRP",tvRP)
+
+--Main Client
+vRPclient = Tunnel.getInterface("vRP","vRP")
+
 
 vRP.requests = {}
 vRP.users = {}
 
--- DB GENERATOR
-MySQL.createCommand("base_tables",[[
+--Database Generator
+vRP.MySQL.createCommand("base_tables",[[
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(24) DEFAULT NULL,
@@ -50,9 +56,9 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `data` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ]])
+vRP.MySQL.execute("base_tables")
 
-MySQL.execute("base_tables")
-
+--Main Functions
 function vRP.getPlayerEndpoint(player)
   return GetPlayerEP(player) or "0.0.0.0"
 end
@@ -126,6 +132,7 @@ function vRP.Vdist(x1,y1,z1,x2,y2,z2)
   return math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1))
 end
 
+--Main Save Event ( used for saving data to sql )
 RegisterServerEvent("vRP:save")
 Citizen.CreateThread(function()
     while true do
