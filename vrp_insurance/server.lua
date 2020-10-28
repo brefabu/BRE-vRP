@@ -1,16 +1,19 @@
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
-vRPclient = Tunnel.getInterface("vRP","vrp_asigurare")
+vRPclient = Tunnel.getInterface("vRP","vrp_insurance")
 vRP = Proxy.getInterface("vRP")
 
-vRP.MySQL.createCommand("vRP/iamasinilejucatorului","SELECT * FROM vehicles WHERE owner_id = @user_id")
+local vRP.MySQL = {}
+local vRP.MySQL = module("vrp", "lib/MySQL")
+
+vRP.MySQL.createCommand("vRP/get_user_vehicles","SELECT * FROM vehicles WHERE owner_id = @user_id")
 
 function build_asigurare_menu(player)
 	local user_id = vRP.getUserId({player})
 	if user_id ~= nil then
-		menu = {name="ASIGURARI AUTO",css={top="75px",header_color="rgba(0,200,0,0.75)"}}
-		vRP.MySQL.query("vRP/iamasinilejucatorului", {user_id = user_id}, function(result, affected)
+		menu = {name="AUTO Insurance",css={top="75px",header_color="rgba(0,200,0,0.75)"}}
+		vRP.MySQL.query("vRP/get_user_vehicles", {user_id = user_id}, function(result, affected)
 			if #result > 0 then
 				for i, v in pairs(result) do
 					if vRP.hasInsurance({v.vehicle_plate}) then
@@ -24,13 +27,13 @@ function build_asigurare_menu(player)
 
 						menu[vRP.getVehName({v.vehicle})] = {function(player, choice)
 							if vRP.tryPayment({user_id,price_insurance}) then
-								vRPclient.notify(player,{"[ASIGURARE] Felicitari , ai cumparat asigurare cu : "..price_insurance.." RON pentru masina : "..vRP.getVehName({v.vehicle}).."!"})
+								vRPclient.notify(player,{"[Insurance] Greetings , you bought insurance at price: "..price_insurance.." Euro for : "..vRP.getVehName({v.vehicle}).."!"})
 								vRP.addInsurance({vehicle_plate})
 							else
-								vRPclient.notify(player,{"[ASIGURARE] Nu ai suficienti bani pentru a plati asigurarea !"})
+								vRPclient.notify(player,{"[Insurance] Not enought money!"})
 							end
 							vRP.closeMenu({player})
-						end, "Numar inmatriculare : <span style = 'color: rgb(0,215,255);font-weight:bold;'>"..v.vehicle_plate.."</span><br>Pret masina : <span style = 'color: rgb(0,215,255);font-weight:bold;font-weight:bold;'>"..price.." Euro</span><br>Pret : <span style = 'color: rgb(0,215,255);font-weight:bold;'>"..tostring(price_insurance).." Euro</span>"}
+						end, "Plate Number : <span style = 'color: rgb(0,215,255);font-weight:bold;'>"..v.vehicle_plate.."</span><br>Vehicle Price : <span style = 'color: rgb(0,215,255);font-weight:bold;font-weight:bold;'>"..price.." Euro</span><br>Insurance Price : <span style = 'color: rgb(0,215,255);font-weight:bold;'>"..tostring(price_insurance).." Euro</span>"}
 					end
 				end
 				vRP.openMenu({player,menu})
@@ -48,7 +51,7 @@ local function build_menu(source)
 		vRP.closeMenu({source})
 	end
 
-	vRP.setArea({source,"vRP:Asigurari",x,y,z,2,1.5,menu_enter,menu_leave})
+	vRP.setArea({source,"vRP:Insurances",x,y,z,2,1.5,menu_enter,menu_leave})
 end
 
 AddEventHandler("vRP:playerLoggedIn", function(player, user_id, data)
@@ -60,13 +63,13 @@ vRP.registerMenuBuilder({"police", function(add, data)
 	if user_id ~= nil then
 		local choices = {}
 		
-		choices["Verifica asigurare"] = {function(player, choice)
+		choices["Check Insurance"] = {function(player, choice)
 			vRP.prompt({player, "USER ID : ", "", function(player, nuser_id)
 				if nuser_id ~= nil then
-					vRP.MySQL.query("vRP/iamasinilejucatorului", {user_id = nuser_id}, function(rows, affected)
+					vRP.MySQL.query("vRP/get_user_vehicles", {user_id = nuser_id}, function(rows, affected)
 						if #rows > 0 then
-							vRP.buildMenu({"asigurare", {player = player}, function(menu)
-								menu.name = "Asigurare AUTO"
+							vRP.buildMenu({"insurance", {player = player}, function(menu)
+								menu.name = "AUTO Insurance"
 								menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
 
 								for i, v in pairs(rows) do
@@ -74,11 +77,11 @@ vRP.registerMenuBuilder({"police", function(add, data)
 									local placuta = v.vehicle_plate
 									local statusasigasd
 									if vRP.hasInsurance({v.vehicle_plate}) then
-										statusasigasd = "Da"
+										statusasigasd = "Yes"
 									else
-										statusasigasd = "Nu"
+										statusasigasd = "No"
 									end
-									menu[vRP.getVehName({masina})] = {nil, "Numar inmatriculare : <span style = 'color: rgb(0,215,255);font-weight:bold;'>"..placuta.."</span><br> Are asigurare : <span style = 'color: rgb(0,215,255);font-weight:bold;'>"..statusasigasd}
+									menu[vRP.getVehName({masina})] = {nil, "Plate Number : <span style = 'color: rgb(0,215,255);font-weight:bold;'>"..placuta.."</span><br> Has insurance : <span style = 'color: rgb(0,215,255);font-weight:bold;'>"..statusasigasd}
 								end
 
 								vRP.openMenu({player,menu})
@@ -87,7 +90,7 @@ vRP.registerMenuBuilder({"police", function(add, data)
 					end)
 				end
 			end})
-		end, "Verifica asigurarile unui jucator!"}
+		end, "Check insurances of a player!"}
 
 	    add(choices)
     end
