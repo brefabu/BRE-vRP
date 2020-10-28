@@ -3,7 +3,6 @@ ui_page('html/UI.html') --THIS IS IMPORTENT
 
 
 dependency "vrp"
-dependency "vrp_mysql"
 
 client_scripts{ 
 	"lib/Tunnel.lua",
