@@ -48,7 +48,6 @@ client_scripts{
   "_client/odometer.lua",
   "_client/survival.lua",
   "_client/map.lua",
-  "_client/identity.lua",
   "_client/police.lua",
   "_client/vehicles.lua",
   "_client/hud.lua",
