@@ -4,8 +4,8 @@ local Proxy = module("vrp", "lib/Proxy")
 vRPclient = Tunnel.getInterface("vRP","vrp_insurance")
 vRP = Proxy.getInterface("vRP")
 
-local vRP.MySQL = {}
-local vRP.MySQL = module("vrp", "lib/MySQL")
+vRP.MySQL = {}
+vRP.MySQL = module("vrp", "lib/MySQL")
 
 vRP.MySQL.createCommand("vRP/get_user_vehicles","SELECT * FROM vehicles WHERE owner_id = @user_id")
 
