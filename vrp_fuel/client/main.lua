@@ -98,11 +98,11 @@ Citizen.CreateThread(function()
 				local fuel 	   = round(GetVehicleFuelLevel(vehicle), 1)
 				
 				if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Iesi din vehicul")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Get out of the vehicle!")
 				elseif IsFueling then
 					local position = GetEntityCoords(vehicle)
 					SetVehicleDoorsLockedForAllPlayers(vehicle, true)
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Apasa ~g~G ~w~pentru oprirea alimentarii. ~g~$" .. price .. " ~w~+  taxe")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Press ~g~G ~w~for stoping fullfilling. ~g~$" .. price .. " ~w~+  taxes")
 					DrawText3Ds(position.x, position.y, position.z + 0.5, fuel .. "%") -- de la masina
 
 					DisableControlAction(0, 0, true) -- Changing view (V)
@@ -140,13 +140,13 @@ Citizen.CreateThread(function()
 						IsFueling = false
 					end
 				elseif fuel > 95.0 then
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Vehiculul are prea multa motorina")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "The vehicle is full!")
 					SetVehicleDoorsLockedForAllPlayers(vehicle, false)
 				elseif cash <= 0 then
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Nu ai bani pentru a putea baga motorina")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "You don't have enough money!")
 					SetVehicleDoorsLockedForAllPlayers(vehicle, false)
 				else
-					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Apasa ~g~G ~w~pentru a face plinul. ~g~$1/~w~L + taxa")
+					DrawText3Ds(pumpLoc['x'], pumpLoc['y'], pumpLoc['z'], "Press ~g~G ~w~for fuel up. ~g~$1/~w~L + taxes")
 					
 					if IsControlJustReleased(0, 47) then
 						local vehicle = GetPlayersLastVehicle()
@@ -205,7 +205,7 @@ Citizen.CreateThread(function()
 						IsFuelingWithJerryCan = false
 					end
 				else
-					DrawText3Ds(coords.x, coords.y, coords.z + 0.5, "Apasa ~g~G ~w~pentru a umple vehiculul cu GAS CAN")
+					DrawText3Ds(coords.x, coords.y, coords.z + 0.5, "Press ~g~G ~w~for fullfiling the Gas with a Gas Can.")
 
 					if IsControlJustReleased(0, 47) then
 						local vehicle = GetPlayersLastVehicle()
@@ -662,7 +662,7 @@ Citizen.CreateThread(function()
 			SetBlipAsShortRange(blip, true)
 
 			BeginTextCommandSetBlipName("STRING")
-			AddTextComponentString("Benzinarie")
+			AddTextComponentString("Gas Fuel")
 			EndTextCommandSetBlipName(blip)
 		end
 	end
@@ -674,6 +674,6 @@ Citizen.CreateThread(function()
 	SetBlipAsShortRange(blip, true)
 
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentString("PECO Barci")
+	AddTextComponentString("Gas Fuel")
 	EndTextCommandSetBlipName(blip)
 end)
