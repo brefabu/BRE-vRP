@@ -239,3 +239,5 @@ function MySQL.ready(callback)
 
     AddEventHandler('onMySQLReady', callback)
 end
+
+return MySQL
