@@ -1,17 +1,16 @@
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
-MySQL = module("vrp_mysql", "MySQL")
 
 vRPclient = Tunnel.getInterface("vRP","vrp_asigurare")
 vRP = Proxy.getInterface("vRP")
 
-MySQL.createCommand("vRP/iamasinilejucatorului","SELECT * FROM vehicles WHERE owner_id = @user_id")
+vRP.MySQL.createCommand("vRP/iamasinilejucatorului","SELECT * FROM vehicles WHERE owner_id = @user_id")
 
 function build_asigurare_menu(player)
 	local user_id = vRP.getUserId({player})
 	if user_id ~= nil then
 		menu = {name="ASIGURARI AUTO",css={top="75px",header_color="rgba(0,200,0,0.75)"}}
-		MySQL.query("vRP/iamasinilejucatorului", {user_id = user_id}, function(result, affected)
+		vRP.MySQL.query("vRP/iamasinilejucatorului", {user_id = user_id}, function(result, affected)
 			if #result > 0 then
 				for i, v in pairs(result) do
 					if vRP.hasInsurance({v.vehicle_plate}) then
@@ -64,7 +63,7 @@ vRP.registerMenuBuilder({"police", function(add, data)
 		choices["Verifica asigurare"] = {function(player, choice)
 			vRP.prompt({player, "USER ID : ", "", function(player, nuser_id)
 				if nuser_id ~= nil then
-					MySQL.query("vRP/iamasinilejucatorului", {user_id = nuser_id}, function(rows, affected)
+					vRP.MySQL.query("vRP/iamasinilejucatorului", {user_id = nuser_id}, function(rows, affected)
 						if #rows > 0 then
 							vRP.buildMenu({"asigurare", {player = player}, function(menu)
 								menu.name = "Asigurare AUTO"

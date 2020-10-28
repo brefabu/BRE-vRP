@@ -1,13 +1,12 @@
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
-MySQL = module("vrp_mysql", "MySQL")
-
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vrp_showroom")
+vRP.MySQL = module("vrp", "lib/MySQL")
 
-MySQL.createCommand("vRP/get_vehicles","SELECT * FROM vehicles WHERE owner = @user_id")
-MySQL.createCommand("vRP/select_plates","SELECT vehicle_plate FROM vehicles")
+vRP.MySQL.createCommand("vRP/get_vehicles","SELECT * FROM vehicles WHERE owner = @user_id")
+vRP.MySQL.createCommand("vRP/select_plates","SELECT vehicle_plate FROM vehicles")
 
 local prefix = {
 	["AB"] = "Alba",
@@ -69,8 +68,8 @@ AddEventHandler('showroom:buy', function(vehicle, price)
 	local user_id = vRP.getUserId({source})
 	local player = vRP.getUserSource({user_id})
 	
-	MySQL.ready(function()
-		MySQL.query("vRP/get_vehicles",{user_id = user_id},function(vehicles,affected)
+	vRP.MySQL.ready(function()
+		vRP.MySQL.query("vRP/get_vehicles",{user_id = user_id},function(vehicles,affected)
 			if #vehicles <= 10 then
 				vRP.prompt({player,"Litere [ Ultimele 3 litere, ex: B111<span style='color: red;'>ABC</span> ]:","",function(player,litere)
 					litere = string.upper(litere)
@@ -87,7 +86,7 @@ AddEventHandler('showroom:buy', function(vehicle, price)
 										prefix = prefix.." "
 									end
 									
-									MySQL.query("vRP/select_plates",{},function(plates,affected)
+									vRP.MySQL.query("vRP/select_plates",{},function(plates,affected)
 										if string.len(plate) < 8 and numere < 10 then
 											plate = prefix.."0"..numere.." "..litere--B 10 BRE
 										elseif string.len(plate) < 8 and numere > 10 and numere < 100 then

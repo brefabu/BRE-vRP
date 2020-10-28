@@ -1,5 +1,4 @@
 --Settings--
-MySQL = module("vrp_mysql", "MySQL")
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 

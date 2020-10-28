@@ -1,6 +1,5 @@
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
-MySQL = module("vrp_mysql", "MySQL")
 
 vRPclient = Tunnel.getInterface("vRP","vrp_drugs")
 vRP = Proxy.getInterface("vRP")
