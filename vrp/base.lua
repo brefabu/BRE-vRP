@@ -31,6 +31,7 @@ vRP.MySQL.createCommand("base_tables",[[
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(24) DEFAULT NULL,
+  `email` longtext DEFAULT NULL,
   `password` longtext DEFAULT NULL,
   `data` longtext DEFAULT NULL,
   `banned` tinyint(1) NOT NULL,

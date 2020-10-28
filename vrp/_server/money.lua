@@ -1,19 +1,19 @@
 function vRP.getMoney(id)
-  return vRP.users[vRP.getUserSource(id)].data.money
+  return vRP.users[vRP.getUserSource(id)].data.money.wallet
 end
 
 function vRP.getBankMoney(id)
-  return vRP.users[vRP.getUserSource(id)].data.bmoney
+  return vRP.users[vRP.getUserSource(id)].data.money.bank
 end
 
 function vRP.setMoney(id,amount)
-  vRP.users[vRP.getUserSource(id)].data.money = amount
+  vRP.users[vRP.getUserSource(id)].data.money.wallet = amount
 
   TriggerClientEvent("vRP:updateMoney", vRP.getUserSource(id),vRP.getMoney(id))
 end
 
 function vRP.setBankMoney(id,amount)
-  vRP.users[vRP.getUserSource(id)].data.bmoney = amount
+  vRP.users[vRP.getUserSource(id)].data.money.bank = amount
 end
 
 function vRP.giveMoney(id,amount)
@@ -44,6 +44,7 @@ end
 
 function vRP.tryFullPayment(id,amount)
   local money = vRP.getMoney(id)
+  print(id,money)
 
   if money >= amount then
     return vRP.tryPayment(id, amount)
@@ -57,7 +58,7 @@ function vRP.tryFullPayment(id,amount)
 end
 
 AddEventHandler("vRP:playerSpawn", function(user_id, player, first_spawn)
-    if first_spawn then
-        TriggerClientEvent("vRP:updateMoney", player, vRP.getMoney(user_id))
-    end
+  if first_spawn then
+      TriggerClientEvent("vRP:updateMoney", player, vRP.getMoney(user_id))
+  end
 end)

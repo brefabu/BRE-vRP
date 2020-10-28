@@ -62,24 +62,6 @@ AddEventHandler("vRP:playerLeaveFaction",function(user_id,player)
     TriggerClientEvent("vRP_C:playerSpawned",player,vRP.users[player].data.customization)  
 end)
 
--- add choices to the menu
-vRP.registerMenuBuilder("interaction", function(add, data)
-    local player = data.player
-  
-    local user_id = vRP.getUserId(player)
-    if user_id ~= nil then
-        local choices = {}
-
-        choices["Fix Skin"] = {function(player,choice)
-            if on_duty[user_id] == false then
-                TriggerClientEvent("vRP_C:playerSpawned",player,vRP.users[player].data.customization)
-            end
-        end}   
-
-        add(choices)
-    end
-end)  
-
 AddEventHandler("vRP:playerLoggedIn",function(source,user_id)
     if source ~= nil then
         on_duty[user_id] = false

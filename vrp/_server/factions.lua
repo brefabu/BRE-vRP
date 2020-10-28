@@ -251,8 +251,8 @@ local function build_client_lidermenu(source)
     end
 end
 
-AddEventHandler("vRP:playerLoggedIn",function(source,user_id)
-    if source ~= nil then
+AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
+    if first_spawn then
         build_client_lidermenu(source)
     end
 end)

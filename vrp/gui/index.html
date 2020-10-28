@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://kit.fontawesome.com/6d23558e9b.js" crossorigin="anonymous"></script>
 		<!--<script src="Menu.js" type="text/javascript"></script>-->
 		<script src="ProgressBar.js" type="text/javascript"></script>
 		<script src="WPrompt.js" type="text/javascript"></script>
@@ -13,22 +14,62 @@
 
 		<script src="ogrp.menu.js" type="text/javascript"></script>
 		<script src="ogrp.main.js" type="text/javascript"></script>
-		<link href="ogrp.menu.css" rel="stylesheet" type="text/css" />
+		<script src="phone.js" type="text/javascript"></script>
 		<script src="login.js" type="text/javascript"></script>
 		<link href="login.css" rel="stylesheet" type="text/css" />
+		<script src="hud.js" type="text/javascript"></script>
+		<link href="hud.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<div class="login">
-            <img src="https://cdn.discordapp.com/attachments/720030178176270376/726917560569692300/image0.png"  width="7.5vw" height="7.5vw" style="width: 10vw;height: 10vw;"/>
-            <div class="inputs">
-                <input type="text" id="username" name="username" placeholder="Nume Utilizator">
-                <input type="password" id="pass" name="thePass" placeholder="Parola">
-            </div>
+		<!-- LogIn Interface -->
+		<div class="login login-active">
+			<!-- Sign In -->
+			<div class="login-form login-signin">
+				<form class="form" id="form1">
+					<h2 class="login-title">Log In</h2>
+					<input id="username" type="text" placeholder="Nume Utilizator" class="input" />
+					<input id="password" type="password" placeholder="Parola" class="input" />
+					<input class="btn" type="submit" value="Login" onclick="LoginTry();return false;">
+				</form>
+			</div>
+			<!-- Sign Up -->
+			<div class="login-form login-signup">
+				<form class="form" id="form2">
+					<h2 class="login-title">Register</h2>
+					<input id="username2" type="text" placeholder="Nume Utilizator" class="input" />
+					<input id="email" type="email" placeholder="Email" class="input" />
+					<input id="password2" type="password" placeholder="Parola" class="input" />
+					<input class="btn" type="submit" value="Register" onclick="RegisterTry();return false;">
+				</form>
+			</div>
 
-            <div class="buttons">
-                <input type="submit" value="Login" onclick="LoginTry()">
-                <input type="submit" value="Register" onclick="RegisterTry()">
-            </div>
+			<!-- Overlay -->
+			<div class="login-overlay">
+				<div class="overlay">
+					<div class="overlay-panel overlay-left">
+						<button class="btn" onclick="SetActive();return false;">Register</button>
+					</div>
+					<div class="overlay-panel overlay-right">
+						<button class="btn" onclick="SetActive();return false;">Log In</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- HUD Interface -->
+        <div class="information-box">
+            <ul class="tab">
+                <li>
+                    <div class="info-bar">Online Players<div class="info-number">0</div></div>                            
+				</li>  
+				<li class="money-box">
+					<div class="money-value"></div> 
+				</li>      
+                <li>
+                    <div class="progressbar"><div class="thirst"></div><span>Thirst</span></div>                            
+                    <div class="progressbar"><div class="hunger"></div><span>Hunger</span></div>                            
+                </li>   
+			</ul>
 		</div>
 	</body>
 </html>

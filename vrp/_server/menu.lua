@@ -12,28 +12,30 @@ vRP.registerMenuBuilder("main", function(add, data)
         end}
 
         choices["Bank"] = {function(player,choice)
-        end,"Money: "..vRP.getBankMoney(user_id)}
+        end,"Money: "..vRP.getBankMoney(user_id).." Euro"}
 
         choices["Legitimations"] = {function(player,choice)
             vRP.buildMenu("info_player", {user_id = user_id, player = player}, function(menu)
-                menu.name="Legitimatii"
+                menu.name="legitimations"
                 menu.css={top="75px",header_color="rgba(25525,0,0.75)"}
 
-                menu["ID Card"] = {nil, "Name: "..p_data.name.."<br>Firstname: "..p_data.firstname.."<br>Phone: "..p_data.phone.."<br>Age: "..p_data.age}
-                if p_data.faction ~= " " then
-                    menu["Work Card"] = {nil, "Name: "..p_data.name.."<br>Firstname: "..p_data.firstname.."<br>Faction: "..p_data.faction.."<br>Role: "..p_data.faction_rank}
+                menu["ID Card"] = {nil, "Name: "..p_data.identity.name.."<br>Firstname: "..p_data.identity.firstname.."<br>Phone: "..p_data.identity.phone.."<br>Age: "..p_data.identity.age}
+               
+                if vRP.isPlayerInAnyFaction(user_id) then
+                    menu["Work Card"] = {nil, "Name: "..p_data.identity.name.."<br>Firstname: "..p_data.identity.firstname.."<br>Faction: "..p_data.identity.faction.name.."<br>Role: "..p_data.identity.faction.rank}
                 end
-                if p_data.license_A then
-                    menu["AUTO License ( A )"] = {nil}
+
+                if vRP.hasDriveLicenseTypeA(user_id) then
+                    info["AUTO License ( A )"] = {nil}
                 end
-                if p_data.license_B then
-                    menu["AUTO License ( B )"] = {nil}
+                if vRP.hasDriveLicenseTypeB(user_id) then
+                    info["AUTO License ( B )"] = {nil}
                 end
-                if p_data.license_C then
-                    menu["AUTO License ( C )"] = {nil}
+                if vRP.hasDriveLicenseTypeC(user_id) then
+                    info["AUTO License ( C )"] = {nil}
                 end
-                if p_data.license_D then
-                    menu["AUTO License ( D )"] = {nil}
+                if vRP.hasDriveLicenseTypeD(user_id) then
+                    info["AUTO License ( D )"] = {nil}
                 end
                 if vRP.hasVisa(user_id) then
                     menu["Visa"] = {nil}
@@ -49,165 +51,128 @@ vRP.registerMenuBuilder("main", function(add, data)
                 menu.css={top="75px",header_color="rgba(25525,0,0.75)"}
 
                 menu["Give money"] = {function(player,choice)
-                    vRPclient.getNearestPlayers(player,{5},function(nplayers)
-                        usrList = ""
-                        for k,v in pairs(nplayers) do
-                          usrList = usrList .. "[" .. vRP.getUserId(k) .. "]" .. vRP.getUserName(k) .. " | "
-                        end
-                        if usrList ~= "" then
-                            vRP.prompt(player,"Players Nearby: " .. usrList .. "","",function(player,nuser_id) 
-                                if nuser_id ~= nil and nuser_id ~= "" then 
-                                    nuser_id = tonumber(nuser_id)
-                                    local nplayer = vRP.getUserSource(tonumber(nuser_id))
-                                    if nplayer ~= nil then
-                                        vRP.prompt(player,"Value ","",function(player,amount) 
-                                            local amount = parseInt(amount)
-                                            print(amount)
-                                            if amount > 0 and vRP.tryPayment(user_id,amount) then
-                                                vRP.giveMoney(nuser_id,amount)
-                                                vRPclient.notify(player,{"You gived "..amount.." EURO!"})
-                                            end
-                                        end)
+                    vRP.prompt(player,"User Id:","",function(player,nuser_id) 
+                        if nuser_id ~= nil and nuser_id ~= "" then 
+                            nuser_id = tonumber(nuser_id)
+                            local nplayer = vRP.getUserSource(tonumber(nuser_id))
+                            if nplayer ~= nil then
+                                vRP.prompt(player,"Value ","",function(player,amount) 
+                                    local amount = parseInt(amount)
+                                    print(amount)
+                                    if amount > 0 and vRP.tryPayment(user_id,amount) then
+                                        vRP.giveMoney(nuser_id,amount)
+                                        vRPclient.notify(player,{"You gived "..amount.." EURO!"})
                                     end
-                                end
-                            end)
+                                end)
+                            end
                         end
                     end)
                 end}
 
                 menu["Ask for ID"] = {function(player,choice)
-                    vRPclient.getNearestPlayers(player,{5},function(nplayers)
-                        usrList = ""
-                        for k,v in pairs(nplayers) do
-                          usrList = usrList .. "[" .. vRP.getUserId(k) .. "]" .. GetPlayerName(k) .. " | "
-                        end
-                        if usrList ~= "" then
-                            vRP.prompt(player,"Players Nearby: " .. usrList .. "","",function(player,nuser_id) 
-                                if nuser_id ~= nil and nuser_id ~= "" then 
-                                    nuser_id = tonumber(nuser_id)
-                                    local nplayer = vRP.getUserSource(tonumber(nuser_id))
-                                    if nplayer ~= nil then
-                                        vRP.buildMenu("legitimation", {user_id = nuser_id, player = nplayer}, function(info)
-                                            info.name="Ask Legitimation"
-                                            info.css={top="75px",header_color="rgba(25525,0,0.75)"}
-                                            
-                                            local p_data = vRP.getUserData(nuser_id)  
+                    vRP.prompt(player,"User Id:","",function(player,nuser_id) 
+                        if nuser_id ~= nil and nuser_id ~= "" then 
+                            nuser_id = tonumber(nuser_id)
+                            local nplayer = vRP.getUserSource(tonumber(nuser_id))
+                            if nplayer ~= nil then
+                                vRP.buildMenu("legitimation", {user_id = nuser_id, player = nplayer}, function(info)
+                                    info.name="Ask Legitimation"
+                                    info.css={top="75px",header_color="rgba(25525,0,0.75)"}
+                                    
+                                    local p_data = vRP.getUserData(nuser_id)  
 
-                                            info["ID card"] = {nil, "Name: "..p_data.name.."<br>Firstname: "..p_data.firstname.."<br>Phone: "..p_data.phone.."<br>Age: "..p_data.age}
+                                    info["ID card"] = {nil, "Name: "..p_data.identity.name.."<br>Firstname: "..p_data.identity.firstname.."<br>Phone: "..p_data.identity.phone.."<br>Age: "..p_data.identity.age}
 
-                                            vRP.openMenu(player,info)
-                                        end)
-                                    end
-                                end
-                            end)
+                                    vRP.openMenu(player,info)
+                                end)
+                            end
                         end
                     end)
                 end}
 
                 menu["Ask for AUTO license"] = {function(player,choice)
-                    vRPclient.getNearestPlayers(player,{5},function(nplayers)
-                        usrList = ""
-                        for k,v in pairs(nplayers) do
-                          usrList = usrList .. "[" .. vRP.getUserId(k) .. "]" .. GetPlayerName(k) .. " | "
-                        end
-                        if usrList ~= "" then
-                            vRP.prompt(player,"Players Nearby: " .. usrList .. "","",function(player,nuser_id) 
-                                if nuser_id ~= nil and nuser_id ~= "" then 
-                                    nuser_id = tonumber(nuser_id)
-                                    local nplayer = vRP.getUserSource(tonumber(nuser_id))
-                                    if nplayer ~= nil then
-                                        vRP.buildMenu("legitimation", {user_id = nuser_id, player = nplayer}, function(info)
-                                            info.name="Ask Legitimation"
-                                            info.css={top="75px",header_color="rgba(25525,0,0.75)"}
-                                            
-                                            local p_data = vRP.getUserData(nuser_id)  
+                    vRP.prompt(player,"User Id:","",function(player,nuser_id) 
+                        if nuser_id ~= nil and nuser_id ~= "" then 
+                            nuser_id = tonumber(nuser_id)
+                            local nplayer = vRP.getUserSource(tonumber(nuser_id))
+                            if nplayer ~= nil then
+                                vRP.buildMenu("legitimation", {user_id = nuser_id, player = nplayer}, function(info)
+                                    info.name="Ask Legitimation"
+                                    info.css={top="75px",header_color="rgba(25525,0,0.75)"}
+                                    
+                                    local p_data = vRP.getUserData(nuser_id)  
 
-                                            if p_data.license_A then
-                                                info["AUTO License ( A )"] = {nil}
-                                            end
-                                            if p_data.license_B then
-                                                info["AUTO License ( B )"] = {nil}
-                                            end
-                                            if p_data.license_C then
-                                                info["AUTO License ( C )"] = {nil}
-                                            end
-                                            
-                                            if p_data.license_A or p_data.license_B or p_data.license_C then
-                                                info["Missing"] = {nil}
-                                            end
-
-                                            vRP.openMenu(player,info)
-                                        end)
+                                    if vRP.hasDriveLicenseTypeA(user_id) then
+                                        info["AUTO License ( A )"] = {nil}
                                     end
-                                end
-                            end)
+                                    if vRP.hasDriveLicenseTypeB(user_id) then
+                                        info["AUTO License ( B )"] = {nil}
+                                    end
+                                    if vRP.hasDriveLicenseTypeC(user_id) then
+                                        info["AUTO License ( C )"] = {nil}
+                                    end
+                                    if vRP.hasDriveLicenseTypeD(user_id) then
+                                        info["AUTO License ( D )"] = {nil}
+                                    end
+                                    
+                                    if not (vRP.hasDriveLicenseTypeA(user_id) or vRP.hasDriveLicenseTypeB(user_id) or vRP.hasDriveLicenseTypeC(user_id) or vRP.hasDriveLicenseTypeD(user_id)) then
+                                        info["Missing"] = {nil}
+                                    end
+
+                                    vRP.openMenu(player,info)
+                                end)
+                            end
                         end
                     end)
                 end}
 
                 menu["Ask for visa"] = {function(player,choice)
-                    vRPclient.getNearestPlayers(player,{5},function(nplayers)
-                        usrList = ""
-                        for k,v in pairs(nplayers) do
-                          usrList = usrList .. "[" .. vRP.getUserId(k) .. "]" .. GetPlayerName(k) .. " | "
-                        end
-                        if usrList ~= "" then
-                            vRP.prompt(player,"Players Nearby: " .. usrList .. "","",function(player,nuser_id) 
-                                if nuser_id ~= nil and nuser_id ~= "" then 
-                                    nuser_id = tonumber(nuser_id)
-                                    local nplayer = vRP.getUserSource(tonumber(nuser_id))
-                                    if nplayer ~= nil then
-                                        vRP.buildMenu("legitimation", {user_id = nuser_id, player = nplayer}, function(info)
-                                            info.name="Ask Legitimation"
-                                            info.css={top="75px",header_color="rgba(25525,0,0.75)"}
-                                            
-                                            local p_data = vRP.getUserData(nuser_id)  
+                    vRP.prompt(player,"User Id:","",function(player,nuser_id) 
+                        if nuser_id ~= nil and nuser_id ~= "" then 
+                            nuser_id = tonumber(nuser_id)
+                            local nplayer = vRP.getUserSource(tonumber(nuser_id))
+                            if nplayer ~= nil then
+                                vRP.buildMenu("legitimation", {user_id = nuser_id, player = nplayer}, function(info)
+                                    info.name="Ask Legitimation"
+                                    info.css={top="75px",header_color="rgba(25525,0,0.75)"}
+                                    
+                                    local p_data = vRP.getUserData(nuser_id)  
 
-                                            if vRP.hasVisa(user_id) then
-                                                info["Visa"] = {nil}
-                                            else
-                                                info["Missing"] = {nil}
-                                            end
-
-                                            vRP.openMenu(player,info)
-                                        end)
+                                    if vRP.hasVisa(user_id) then
+                                        info["Visa"] = {nil}
+                                    else
+                                        info["Missing"] = {nil}
                                     end
-                                end
-                            end)
+
+                                    vRP.openMenu(player,info)
+                                end)
+                            end
                         end
                     end)
                 end}
 
                 menu["Ask for work card"] = {function(player,choice)
-                    vRPclient.getNearestPlayers(player,{5},function(nplayers)
-                        usrList = ""
-                        for k,v in pairs(nplayers) do
-                          usrList = usrList .. "[" .. vRP.getUserId(k) .. "]" .. GetPlayerName(k) .. " | "
-                        end
-                        if usrList ~= "" then
-                            vRP.prompt(player,"Players Nearby: " .. usrList .. "","",function(player,nuser_id) 
-                                if nuser_id ~= nil and nuser_id ~= "" then 
-                                    nuser_id = tonumber(nuser_id)
-                                    local nplayer = vRP.getUserSource(tonumber(nuser_id))
-                                    if nplayer ~= nil then
-                                        vRP.buildMenu("legitimation", {user_id = nuser_id, player = nplayer}, function(info)
-                                            info.name="ask legitimation"
-                                            info.css={top="75px",header_color="rgba(25525,0,0.75)"}
-                                            
-                                            local p_data = vRP.getUserData(nuser_id)  
+                    vRP.prompt(player,"User Id:","",function(player,nuser_id) 
+                        if nuser_id ~= nil and nuser_id ~= "" then 
+                            nuser_id = tonumber(nuser_id)
+                            local nplayer = vRP.getUserSource(tonumber(nuser_id))
+                            if nplayer ~= nil then
+                                vRP.buildMenu("legitimation", {user_id = nuser_id, player = nplayer}, function(info)
+                                    info.name="ask legitimation"
+                                    info.css={top="75px",header_color="rgba(25525,0,0.75)"}
+                                    
+                                    local p_data = vRP.getUserData(nuser_id)  
 
-                                            
-                                            if p_data.faction ~= " " then
-                                                info["Work Card"] = {nil, "Name: "..p_data.name.."<br>Firstname: "..p_data.firstname.."<br>Faction: "..p_data.faction.."<br>Role: "..p_data.faction_rank}
-                                            else
-                                                info["Missing"] = {nil}
-                                            end
-
-                                            vRP.openMenu(player,info)
-                                        end)
+                                    
+                                    if vRP.isPlayerInAnyFaction(user_id) then
+                                        info["Work Card"] = {nil, "Name: "..p_data.identity.name.."<br>Firstname: "..p_data.identity.firstname.."<br>Faction: "..p_data.identity.faction.name.."<br>Role: "..p_data.identity.faction.rank}
+                                    else
+                                        info["Missing"] = {nil}
                                     end
-                                end
-                            end)
+
+                                    vRP.openMenu(player,info)
+                                end)
+                            end
                         end
                     end)
                 end}

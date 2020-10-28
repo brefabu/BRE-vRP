@@ -1,6 +1,6 @@
 --TIME PLAYED
 function vRP.getUserTimePlayed(id)
-    return vRP.users[vRP.getUserSource(id)].data.time or 0
+    return vRP.users[vRP.getUserSource(id)].data.time
 end
 
 function vRP.updateUserTimePlayed(id,minutes)
@@ -9,11 +9,11 @@ end
 
 --HEALTH
 function vRP.getHealth(id)
-    return vRP.users[vRP.getUserSource(id)].data.health
+    return vRP.users[vRP.getUserSource(id)].data.survival.health
 end
 
 function vRP.setHealth(id,value)
-    vRP.users[vRP.getUserSource(id)].data.health = value
+    vRP.users[vRP.getUserSource(id)].data.survival.health = value
 
     TriggerClientEvent("vRP:set_health", vRP.getUserSource(id),value)
 end
@@ -53,23 +53,23 @@ end)
 
 --HUNGER & THIRST
 function vRP.getHunger(id)
-    return vRP.users[vRP.getUserSource(id)].data.hunger
+    return vRP.users[vRP.getUserSource(id)].data.survival.hunger
 end
 
 function vRP.getThirst(id)
-    return vRP.users[vRP.getUserSource(id)].data.thirst
+    return vRP.users[vRP.getUserSource(id)].data.survival.thirst
 end
 
 function vRP.setHunger(id,value)
-    vRP.users[vRP.getUserSource(id)].data.hunger = value
+    vRP.users[vRP.getUserSource(id)].data.survival.hunger = value
 
-    TriggerClientEvent("vRP:updateSurvivalGUI", vRP.getUserSource(id), vRP.getHunger(id), vRP.getThirst(id))
+    TriggerClientEvent("vRP:updateSurvival", vRP.getUserSource(id), {hunger = value, thirst = vRP.getThirst(id)})
 end
 
 function vRP.setThirst(id,value)
-    vRP.users[vRP.getUserSource(id)].data.thirst = value
+    vRP.users[vRP.getUserSource(id)].data.survival.thirst = value
 
-    TriggerClientEvent("vRP:updateSurvivalGUI", vRP.getUserSource(id), vRP.getHunger(id), vRP.getThirst(id))
+    TriggerClientEvent("vRP:updateSurvival", vRP.getUserSource(id), {hunger = vRP.getHunger(id), value})
 end
 
 function vRP.varyHunger(id,value)
@@ -122,15 +122,8 @@ end
 
 function task_update()
     for k,v in pairs(vRP.users) do
-      vRP.varyHunger(v.id, math.random(1,3))
-      vRP.varyThirst(v.id, math.random(1,3))
-
-      
-        if vRP.getHealth(v.id) < 15 then
-            TriggerClientEvent("vRP:start_migrane", vRP.getUserSource(v.id))
-        else
-            TriggerClientEvent("vRP:stop_migrane", vRP.getUserSource(v.id))
-        end
+      vRP.varyHunger(v.id, 1)
+      vRP.varyThirst(v.id, 1)
     end
   
     SetTimeout(60000,task_update)
@@ -155,15 +148,6 @@ function vRP.setUserPosition(id,x,y,z)
     vRP.users[vRP.getUserSource(id)].data.position = {x = x, y = y, z = z}
 end
 
---CUSTOMIZATION
-function vRP.getUserCustomization(id)
-    return vRP.users[vRP.getUserSource(id)].data.customization
-end
-
-function vRP.setUserCustomization(id,data)
-    vRP.users[vRP.getUserSource(id)].data.customization = data
-end
-
 --WEAPONS
 function vRP.getUserWeapons(id)
     return vRP.users[vRP.getUserSource(id)].data.weapons
@@ -173,19 +157,23 @@ function vRP.setUserWeapons(id,data)
     vRP.users[vRP.getUserSource(id)].data.weapons = data
 end
 
-local config = module("config/player_state")
+--CUSTOMIZATION
+function vRP.getUserCustomization(id)
+    return vRP.users[vRP.getUserSource(id)].data.customization
+end
 
-vRP.MySQL.createCommand("vRP/get_user_data","SELECT * FROM users WHERE id = @id")
-vRP.MySQL.createCommand("vRP/set_user_data","UPDATE users SET data = @data WHERE id = @id")
+function vRP.setUserCustomization(id,data)
+    vRP.users[vRP.getUserSource(id)].data.customization = data
+end
+
+MySQL.createCommand("vRP/get_user_data","SELECT * FROM users WHERE id = @id")
+MySQL.createCommand("vRP/set_user_data","UPDATE users SET data = @data WHERE id = @id")
 
 AddEventHandler("vRP:playerSpawn", function(user_id, player, first_spawn)
     if first_spawn then
-        vRPclient.teleport(player, config.spawn_position)
-
         local position = vRP.users[player].data.position
         vRPclient.teleport(player, {position.x, position.y, position.z})
-        TriggerClientEvent("vRP_C:playerSpawned",player,vRP.getUserCustomization(user_id))
-        TriggerClientEvent("vRP:updateSurvival", player, vRP.getHunger(user_id), vRP.getThirst(user_id))
+        TriggerClientEvent("vRP:updateSurvival", player, {hunger =  vRP.getHunger(user_id), thirst = vRP.getThirst(user_id)})
         TriggerClientEvent("vRP:loadWeapons", player, vRP.getUserWeapons(user_id))
     end
 end)
@@ -195,12 +183,10 @@ AddEventHandler("vRP:save", function()
     for i,v in pairs(vRP.users) do
         vRPclient.getPosition(i, {}, function(x,y,z)
             vRP.setUserPosition(v.id,x,y,z)
-            vRP.MySQL.execute("vRP/set_user_data",{data = json.encode(v.data),id = v.id})
+            MySQL.execute("vRP/set_user_data",{data = json.encode(v.data),id = v.id})
         end)
 
-        if DoesEntityExist(GetPlayerPed(vRP.getUserSource(v.id))) then
-            vRP.updateUserTimePlayed(v.id,1)
-        end
+        vRP.updateUserTimePlayed(v.id,1)
     end
 end)
 

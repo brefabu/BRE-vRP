@@ -8,6 +8,7 @@ ui_page "gui/index.html"
 server_scripts{ 
   "@mysql-async/lib/MySQL.lua",
   "lib/utils.lua",
+  "lib/MySQL.lua",
   "base.lua",
   "_server/login.lua",
   "_server/player_data.lua",
@@ -33,7 +34,6 @@ server_scripts{
   "_server/identity.lua",
   "_server/insurance.lua",
   "_server/payday.lua",
-  "_server/admin.lua",
   "_server/licenses.lua"
 }
 
