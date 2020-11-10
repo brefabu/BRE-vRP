@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` longtext DEFAULT NULL,
   `password` longtext DEFAULT NULL,
   `data` longtext DEFAULT NULL,
-  `banned` tinyint(1) NOT NULL,
-  `whitelisted` tinyint(1) NOT NULL,
+  `banned` tinyint(1) NOT NULL DEFAULT 0,
+  `whitelisted` tinyint(1) NOT NULL DEFAULT 0,
   `registered_date` date DEFAULT NULL,
   `last_login_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
