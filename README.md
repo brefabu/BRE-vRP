@@ -30,13 +30,6 @@ A new showroom and a new gunshop are waiting for you!
 
 - [x] Documentation for setting up the server
 
-* Setting up the database:
-
-Add this line in server.cfg and replace with your database connection credentials.
-```lua
-set mysql_connection_string "server=localhost;database=vrp;userid=root;password="
-```
-
 * Configuring the server:
 
 Every configuration is in `/vrp/cfg`.
