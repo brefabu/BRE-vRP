@@ -2,19 +2,6 @@
 
 `Firstly, this project it's made long time ago, but I decided to post it now. And yes, it's optimized!`
 
-- [x] MySQL-ASync
-```
-The modification was made by PlexAlex.
-
-> How it works?
-
-It uses the basic MySQL-ASync functions, but it has adapted functions to vRP_MySQL format.
-
-> It is better?
-
-Basically yes, but there are better choices.
-```
-
 - [x] vRP
 ```
 The modification was made by BRE Faby.
